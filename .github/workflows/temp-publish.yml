@@ -1,0 +1,46 @@
+name: Python application
+
+on:
+  repository_dispatch:
+    types: [on-temp-update]
+  schedule:
+    - cron:  '0 20 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Run script
+      run: |
+        python densoku.py
+    - name: git setting
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+    - name: Commit files
+      run: |
+        git add -N .
+        if ! git diff --exit-code --quiet
+        then
+          git add .
+          git commit -m "Update Temp kmz" -a
+          git push
+        fi
+    - name: deploy
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./kmz
+        publish_branch: gh-pages
