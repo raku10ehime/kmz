@@ -6,7 +6,7 @@ import simplekml
 
 class KMLGenerator:
     def __init__(self):
-        self.kml = simplekml.Kml(name="Temp")
+        self.kml = simplekml.Kml(name="Densoku")
         self.kml.document.name = "楽天モバイル基地局（愛媛県）一時預かり"
         self.icons = ["rakuten.png", "close.png"]
         self.fol = self.kml.newfolder()
@@ -67,5 +67,6 @@ df = pd.read_csv(
 )
 
 df["場所"] = df["場所"].str.strip()
+df["eNB-LCID"] = df["eNB-LCID"].fillna("")
 
-generate_kml_for_area(df, "temporary.kmz")
+generate_kml_for_area(df, "densoku.kmz")
