@@ -25,6 +25,19 @@ jobs:
     - name: Run script
       run: |
         python main.py
+    - name: git setting
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+    - name: Commit files
+      run: |
+        git add -N .
+        if ! git diff --exit-code --quiet
+        then
+          git add .
+          git commit -m "Update kmz" -a
+          git push
+        fi
     - name: deploy
       uses: peaceiris/actions-gh-pages@v4
       with:
