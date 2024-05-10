@@ -100,7 +100,7 @@ col = [
 # 5G
 flag5G = df_ehime["sub6"].str.isnumeric() | df_ehime["ミリ波"].str.isnumeric()
 df_ehime["場所"] = df_ehime["場所"].mask(flag5G, "【5G】" + df_ehime["場所"])
-df_ehime["状況"] = "5G"
+df_ehime["状況"] = df_ehime["状況"].mask(flag5G, "5G")
 
 # 屋内
 df_ehime["場所"] = df_ehime["場所"].mask(
