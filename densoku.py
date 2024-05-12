@@ -8,7 +8,10 @@ class KMLGenerator:
     def __init__(self):
         self.kml = simplekml.Kml(name="Densoku")
         self.kml.document.name = "楽天モバイル基地局（愛媛県）仮登録"
+
+        # アイコンを指定（eNB-LCIDある、eNB-LCIDなし）
         self.icons = ["rakuten.png", "close.png"]
+
         self.fol = self.kml.newfolder()
 
     def make_style(self, fn, scale=1):
@@ -29,10 +32,12 @@ class KMLGenerator:
         pnt = self.fol.newpoint(name=name)
         pnt.coords = [(longitude, latitude)]
 
+        # eNB-LCIDがある場合、1番目のアイコン
         if eNB_LCID:
             pnt.stylemap = self.kml.document.stylemaps[0]
             pnt.description = f"eNB-LCID: {eNB_LCID}"
 
+        # eNB-LCIDがない場合、2番目のアイコン
         else:
             pnt.stylemap = self.kml.document.stylemaps[1]
 
@@ -56,7 +61,7 @@ def generate_kml_for_area(df, fn):
     kmz_path.parent.mkdir(parents=True, exist_ok=True)
     kml_generator.save_kml(kmz_path)
 
-
+# スプレッドシートのURL
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1y4_eNMmLm_cqc32Kc-2GE2U-wecpTUVpVGc9CR60QERERnW8fe9qeDqZT7GVhn3SMG3W1haykHi5/pub?gid=0&single=true&output=csv"
 
 df = pd.read_csv(
@@ -66,6 +71,7 @@ df = pd.read_csv(
     dtype={"eNB-LCID": str, "備考": str, "住所": str},
 )
 
+# データクレンジング
 df["場所"] = df["場所"].str.strip()
 df["eNB-LCID"] = df["eNB-LCID"].fillna("")
 
