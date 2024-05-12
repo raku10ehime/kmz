@@ -7,7 +7,7 @@ import simplekml
 class KMLGenerator:
     def __init__(self):
         self.kml = simplekml.Kml(name="Densoku")
-        self.kml.document.name = "楽天モバイル基地局（愛媛県）一時預かり"
+        self.kml.document.name = "楽天モバイル基地局（愛媛県）仮登録"
         self.icons = ["rakuten.png", "close.png"]
         self.fol = self.kml.newfolder()
 
