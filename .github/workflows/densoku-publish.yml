@@ -25,6 +25,7 @@ jobs:
     - name: Run script
       run: |
         python densoku.py
+        python make_json.py
     - name: git setting
       run: |
         git config --local user.email "action@github.com"
