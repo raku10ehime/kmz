@@ -83,6 +83,8 @@ df_ehime["場所"] = df_ehime["場所"].str.strip()
 df_ehime["緯度"] = df_ehime["緯度"].astype(float)
 df_ehime["経度"] = df_ehime["経度"].astype(float)
 
+df_ehime["eNB-LCID"] = df_ehime["eNB-LCID"].fillna("").str.cat(df_ehime["eNB-LCID_700"], sep="\n").str.strip()
+
 col = [
     "場所",
     "市区町村",
@@ -90,7 +92,6 @@ col = [
     "更新日時",
     "状況",
     "eNB-LCID",
-    "PCI",
     "基地局ID",
     "sector",
     "sub6",
