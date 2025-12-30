@@ -73,6 +73,5 @@ df = pd.read_csv(
 
 # データクレンジング
 df["場所"] = df["場所"].str.strip()
-df["eNB-LCID"] = df["eNB-LCID"].fillna("").str.cat(df["eNB-LCID_700"], sep="\n").str.strip()
 
 generate_kml_for_area(df, "densoku.kmz")
