@@ -88,6 +88,11 @@ df_ehime["eNB-LCID_700"] = df_ehime["eNB-LCID_700"].fillna("")
 
 df_ehime["eNB-LCID"] = df_ehime["eNB-LCID"].str.cat(df_ehime["eNB-LCID_700"], sep="\n").str.strip()
 
+# プラチナ
+df_ehime["場所"] = df_ehime["場所"].mask(
+    df_ehime["eNB-LCID_700"] != "", "[PB]" + df_ehime["場所"]
+)
+
 col = [
     "場所",
     "市区町村",
@@ -103,22 +108,22 @@ col = [
 
 # 5G
 flag5G = df_ehime["sub6"].str.isnumeric() | df_ehime["ミリ波"].str.isnumeric()
-df_ehime["場所"] = df_ehime["場所"].mask(flag5G, "【5G】" + df_ehime["場所"])
+df_ehime["場所"] = df_ehime["場所"].mask(flag5G, "[5G]" + df_ehime["場所"])
 df_ehime["状況"] = df_ehime["状況"].mask(flag5G, "5G")
 
 # 屋内
 df_ehime["場所"] = df_ehime["場所"].mask(
-    df_ehime["設置タイプ"] == "屋内", "【屋内】" + df_ehime["場所"]
+    df_ehime["設置タイプ"] == "屋内", "[屋内]" + df_ehime["場所"]
 )
 
 # ピコセル
 df_ehime["場所"] = df_ehime["場所"].mask(
-    df_ehime["設置タイプ"] == "ピコセル", "【ピコセル】" + df_ehime["場所"]
+    df_ehime["設置タイプ"] == "ピコセル", "[ピコセル]" + df_ehime["場所"]
 )
 
 # 衛星
 df_ehime["場所"] = df_ehime["場所"].mask(
-    df_ehime["設置タイプ"] == "衛星", "【衛星】" + df_ehime["場所"]
+    df_ehime["設置タイプ"] == "衛星", "[衛星]" + df_ehime["場所"]
 )
 
 # 鉄塔
